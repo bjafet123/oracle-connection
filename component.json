@@ -1,0 +1,101 @@
+{
+	"title": "OIH Oracle Connector",
+	"description": "OIH connector for Oracle queries",
+	"version": "0.0.1",
+	"docsUrl": "https://github.com/bjafet123/oracle-connection/blob/main/README.md",
+	"buildType": "docker",
+	"credentials": {
+		"fields": {
+		}
+	},
+	"triggers": {
+		"getQueryResults": {
+			"title": "Execute query through a Oracle connection.",
+			"main": "./getQueryResults.js",
+			"fields": {
+				"host": {
+					"label": "Database host",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The host of the database connection"
+				},
+				"user": {
+					"label": "Database user name",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "Your user name to database connection"
+				},
+				"password": {
+					"label": "Database password",
+					"required": true,
+					"viewClass": "PasswordFieldView",
+					"note": "Your password to database connection"
+				},
+				"database": {
+					"label": "Database name",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The database name to connect"
+				},
+				"port": {
+					"label": "Database port",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The database port to connect",
+					"placeholder": 1521
+				},
+				"query": {
+					"label": "Query",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The query to be executed"
+				}
+			}
+		}
+	},
+	"actions": {
+		"getQueryResults": {
+			"title": "Execute CRUD query through a Oracle connection.",
+			"main": "./getQueryResults.js",
+			"fields": {
+				"host": {
+					"label": "Database host",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The host of the database connection"
+				},
+				"user": {
+					"label": "Database user name",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "Your user name to database connection"
+				},
+				"password": {
+					"label": "Database password",
+					"required": true,
+					"viewClass": "PasswordFieldView",
+					"note": "Your password to database connection"
+				},
+				"database": {
+					"label": "Database name",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The database name to connect"
+				},
+				"port": {
+					"label": "Database port",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The database port to connect",
+					"placeholder": 3306
+				},
+				"query": {
+					"label": "Query",
+					"required": true,
+					"viewClass": "TextFieldView",
+					"note": "The query to be executed"
+				}
+			}
+		}
+	}
+}

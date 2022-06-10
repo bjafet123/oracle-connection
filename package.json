@@ -1,0 +1,33 @@
+{
+  "name": "oracle-connection",
+  "version": "0.0.1",
+  "description": "OIH commponent for connection to an Oracle database",
+  "main": "getQueryResults.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./node_modules/@openintegrationhub/ferryman/runGlobal.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjafet123/oracle-connection.git"
+  },
+  "keywords": [
+    "OIH",
+    "node",
+    "nodejs",
+    "database",
+    "oracle"
+  ],
+  "author": "Jafet Malvaez Lopez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bjafet123/oracle-connection/issues"
+  },
+  "homepage": "https://github.com/bjafet123/oracle-connection#readme",
+  "dependencies": {
+    "@openintegrationhub/ferryman": "^2.1.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "oracledb": "^5.4.0"
+  }
+}
