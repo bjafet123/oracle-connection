@@ -26,8 +26,11 @@
   "homepage": "https://github.com/bjafet123/oracle-connection#readme",
   "dependencies": {
     "@openintegrationhub/ferryman": "^2.1.0",
+    "bunyan": "^1.8.15",
+    "bunyan-format": "^0.2.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "oracledb": "^5.4.0"
+    "oracledb": "^5.4.0",
+    "rabbitmqcg-nxg-oih": "^0.2.2"
   }
 }

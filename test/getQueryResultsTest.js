@@ -1,80 +1,74 @@
 require('dotenv').config();
 const express = require('express');
 const oracledb = require('oracledb');
+const rabbitmq = require('rabbitmqcg-nxg-oih');
+const log = require('../helpers/logger');
+const {readPool} = require('../helpers/query');
 const app = express();
 
 app.use(express.json());
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+//oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
-app.get("/", (req, res) => {
-	res.send("Service ready.");
+app.get('/', (req, res) => {
+	res.send('Service ready.');
 });
 
-app.post("/", async (req, res) => {
+app.post('/', async (req, res) => {
 	
 	try {
-		console.log("Inside oracleConnector()");
-        console.log("Config=" + req.body);
-		
-		let oraconnect;
-		let {
-				query, 
-				host,
-				user,
-				password,
-				database,
-				port
-			} = req.body;
-		
-		if (!host) {
-			return res.status(400).json({msg: 'Database host parameter missing.'});
+		log.info('Inside oracleConnector()');
+        log.info('Config=' + req.body);
+
+		//like to msg
+		const {data} = req.body;
+		const {cfg} = req.body;
+
+		let properties = {
+			database: null,
+			host: null,
+			password: null,
+			port: null,
+			query: null,
+			user: null
+		};
+
+		if (!data) {
+			return res.status(401).json(`${process.env.ERROR_PROPERTY} data`);
 		}
-		if (!user) {
-			return res.status(400).json({msg: 'Database user name parameter missing.'});
+		if (!cfg) {
+			return res.status(401).json(`${process.env.ERROR_PROPERTY} cfg`);
 		}
-		if (!password) {
-			return res.status(400).json({msg: 'Database password parameter missing.'});
-		}
-		if (!database) {
-			return res.status(400).json({msg: 'Database name parameter missing.'});
-		}
-		if (!port) {
-			return res.status(400).json({msg: 'Database port parameter missing.'});
-		}
+
+		Object.keys(properties).forEach((value) => {
+			if (data.hasOwnProperty(value)) {
+				properties[value] = data[value];
+			} else if (cfg.hasOwnProperty(value)) {
+				properties[value] = cfg[value];
+			} else {
+				log.error(`${process.env.ERROR_PROPERTY}, ${value}`);
+				throw new Error(`${process.env.ERROR_PROPERTY}, ${value}`);
+			}
+		});
 		
 		await oracledb.createPool({
-			user,
-			password,
-			connectString : `${host}:${port}/${database}`
+			user: properties.user,
+			password: properties.password,
+			connectString : `${properties.host}:${properties.port}/${properties.database}`
 		});
-		console.log('Connection pool started...');
+		log.info('Connection pool started...');
+
+		const _data = await readPool(properties);
+		res.json(_data);
 		
-		if (!query) {
-			return res.status(400).json({msg: 'No query to be excecuted.'});
-		}
-		
-		oraconnect = await oracledb.getConnection();
-		if(!oraconnect) {
-			return res.status(400).json({msg: 'No connection established.'});
-		}
-		const result = await oraconnect.execute(query);
-		res.json(result.rows);
-		
-	} catch (err) {
-		res.status(400).json(err);
-	} finally {
-		if (oraconnect) {
-			try {
-				await oraconnect.release();
-			} catch (err) {
-				console.error(err);
-			}
-		}
+	} catch (e) {
+		await rabbitmq.producerMessage(e);
+		res.status(400).json(e);
+
 	}
 });
 
 app.listen(3000, () => {
-	console.log("Server running on port 3000...");
+	log.info('Server running on port 3000...');
 });
 
 

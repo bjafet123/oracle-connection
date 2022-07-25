@@ -1,0 +1,9 @@
+.idea/
+node_modules
+*.log
+.env.local
+.project
+test/
+.settings
+.settings/
+.settings/*
