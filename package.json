@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/bjafet123/oracle-connection#readme",
   "dependencies": {
-    "@openintegrationhub/ferryman": "^2.1.0",
+    "@openintegrationhub/ferryman": "^2.1.1",
+    "@openintegrationhub/ferryman-1-7": "npm:@openintegrationhub/ferryman@^1.7.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "dotenv": "^16.0.1",
